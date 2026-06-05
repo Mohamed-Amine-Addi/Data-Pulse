@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DATA PULSE — Analytics Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">
+      <span class="logo-pulse"></span>
+      <i class="ti ti-activity-heartbeat"></i>
+    </div>
+    <span class="logo-text">DATA<strong>PULSE</strong></span>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Analyse</div>
+    <a href="#" class="nav-item active" data-view="dashboard">
+      <i class="ti ti-layout-dashboard"></i><span>Dashboard</span>
+    </a>
+    <a href="#" class="nav-item" data-view="worldmap">
+      <i class="ti ti-world"></i><span>Carte mondiale</span>
+    </a>
+    <a href="#" class="nav-item" data-view="charts">
+      <i class="ti ti-chart-bar"></i><span>Visualisations</span>
+    </a>
+
+    <div class="nav-section-label">Outils</div>
+    <a href="#" class="nav-item" data-view="compare">
+      <i class="ti ti-scale"></i><span>Comparateur</span>
+    </a>
+    <a href="#" class="nav-item" data-view="explorer">
+      <i class="ti ti-table"></i><span>Explorateur</span>
+    </a>
+    <a href="#" class="nav-item" data-view="import">
+      <i class="ti ti-upload"></i><span>Import données</span>
+    </a>
+
+    <div class="nav-section-label">Insights & IA</div>
+    <a href="#" class="nav-item" data-view="insights">
+      <i class="ti ti-brain"></i><span>Insights auto</span>
+    </a>
+    <a href="#" class="nav-item" data-view="forecast">
+      <i class="ti ti-chart-area-line"></i><span>Prévisions 2030</span>
+    </a>
+    <a href="#" class="nav-item" data-view="rankings">
+      <i class="ti ti-trophy"></i><span>Classements</span>
+    </a>
+
+    <div class="nav-section-label">Outils Pro</div>
+    <a href="#" class="nav-item" data-view="watchlist">
+      <i class="ti ti-bell-ringing"></i><span>Watchlist</span>
+    </a>
+    <a href="#" class="nav-item" data-view="studio">
+      <i class="ti ti-palette"></i><span>Data Studio</span>
+    </a>
+    <a href="#" class="nav-item" data-view="report">
+      <i class="ti ti-file-analytics"></i><span>Rapports</span>
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="data-source-badge">
+      <i class="ti ti-database"></i>
+      <span>42 pays · 2026</span>
+    </div>
+    <!-- Infos utilisateur connecte -->
+    <div style="display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border-default)">
+      <div id="sidebarAvatar" style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;flex-shrink:0">—</div>
+      <div style="min-width:0">
+        <div id="sidebarUserName" style="font-size:11px;font-weight:600;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">—</div>
+        <div id="sidebarUserRole" style="font-size:10px;color:var(--text-muted);font-family:DM Mono">—</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main-content" id="mainContent">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="sidebar-toggle" id="sidebarToggle">
+        <i class="ti ti-menu-2"></i>
+      </button>
+      <div class="breadcrumb-custom">
+        <span id="currentViewLabel">Dashboard</span>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="search-bar">
+        <i class="ti ti-search"></i>
+        <input type="text" placeholder="Rechercher un pays..." id="globalSearch">
+      </div>
+      <div class="topbar-actions">
+        <button class="btn-icon" id="btnNotif" title="Notifications">
+          <i class="ti ti-bell"></i>
+          <span class="badge-dot" id="notifDot"></span>
+        </button>
+        <button class="btn-icon" id="btnSettings" title="Paramètres">
+          <i class="ti ti-settings"></i>
+        </button>
+        <div class="user-avatar" id="userAvatar" title="Mon profil">—</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="views-wrapper">
+
+    <section class="view active" id="view-dashboard">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">Vue d'ensemble globale</h1>
+          <p class="view-subtitle">Statistiques mondiales en temps réel</p>
+        </div>
+        <div class="view-actions">
+          <select class="filter-select" id="yearFilter">
+            <option value="2026" selected>2026</option>
+            <option value="2025">2025</option>
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+            <option value="2020">2020</option>
+          </select>
+          <button class="btn-export" id="btnExport">
+            <i class="ti ti-download"></i> Exporter
+          </button>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon kpi-icon--blue"><i class="ti ti-users"></i></div>
+          <div class="kpi-body">
+            <div class="kpi-label">Population mondiale</div>
+            <div class="kpi-value" id="kpiPopulation">8.1 Mrd</div>
+            <div class="kpi-trend trend-up"><i class="ti ti-trending-up"></i> +0.9% cette année</div>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon kpi-icon--green"><i class="ti ti-coin"></i></div>
+          <div class="kpi-body">
+            <div class="kpi-label">PIB mondial</div>
+            <div class="kpi-value" id="kpiGDP">105 T$</div>
+            <div class="kpi-trend trend-up"><i class="ti ti-trending-up"></i> +3.2% vs 2023</div>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon kpi-icon--amber"><i class="ti ti-bolt"></i></div>
+          <div class="kpi-body">
+            <div class="kpi-label">Énergie consommée</div>
+            <div class="kpi-value" id="kpiEnergy">580 EJ</div>
+            <div class="kpi-trend trend-down"><i class="ti ti-trending-down"></i> -1.1% renouvelables</div>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon kpi-icon--purple"><i class="ti ti-wifi"></i></div>
+          <div class="kpi-body">
+            <div class="kpi-label">Accès Internet</div>
+            <div class="kpi-value" id="kpiInternet">67.4%</div>
+            <div class="kpi-trend trend-up"><i class="ti ti-trending-up"></i> +4.2% depuis 2022</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="charts-row">
+        <div class="chart-card chart-card--large">
+          <div class="chart-card-header">
+            <div>
+              <h3 class="chart-title">Évolution du PIB — Top 8 économies</h3>
+              <p class="chart-subtitle">En trillions USD · 2015–2026</p>
+            </div>
+            <div class="chart-legend" id="gdpLegend"></div>
+          </div>
+          <div style="position:relative;height:280px;">
+            <canvas id="gdpChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div>
+              <h3 class="chart-title">Répartition PIB mondial</h3>
+              <p class="chart-subtitle">Parts relatives 2026</p>
+            </div>
+          </div>
+          <div style="position:relative;height:220px;">
+            <canvas id="pieChart"></canvas>
+          </div>
+          <div class="chart-legend" id="pieLegend"></div>
+        </div>
+      </div>
+
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div><h3 class="chart-title">Croissance économique</h3>
+            <p class="chart-subtitle">% annuel par région 2026</p></div>
+          </div>
+          <div style="position:relative;height:250px;">
+            <canvas id="growthChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div><h3 class="chart-title">Internet vs PIB/hab.</h3>
+            <p class="chart-subtitle">Corrélation par pays</p></div>
+          </div>
+          <div style="position:relative;height:250px;">
+            <canvas id="scatterChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div><h3 class="chart-title">Top 5 — PIB 2026</h3>
+            <p class="chart-subtitle">En trillions USD</p></div>
+          </div>
+          <div style="position:relative;height:250px;">
+            <canvas id="top5Chart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-worldmap">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">Carte mondiale interactive</h1>
+          <p class="view-subtitle">Cliquez sur un pays pour afficher ses données</p>
+        </div>
+        <div class="view-actions">
+          <select class="filter-select" id="mapMetric">
+            <option value="gdp">PIB</option>
+            <option value="population">Population</option>
+            <option value="internet">Usage Internet</option>
+            <option value="growth">Croissance</option>
+          </select>
+        </div>
+      </div>
+      <div class="map-container">
+        <div class="map-wrapper">
+          <div id="worldMap"></div>
+          <div class="map-legend">
+            <span class="map-legend-label">Faible</span>
+            <div class="map-legend-gradient" id="mapLegendGrad"></div>
+            <span class="map-legend-label">Élevé</span>
+          </div>
+        </div>
+        <div class="country-panel" id="countryPanel">
+          <div class="country-panel-header">
+            <div class="country-flag-placeholder" id="countryFlagDisplay">--</div>
+            <div>
+              <h3 id="countryName">Sélectionnez un pays</h3>
+              <p id="countryRegion" class="text-muted small">Cliquez sur la carte</p>
+            </div>
+          </div>
+          <div class="country-stats" id="countryStats">
+            <div class="country-stat-item">
+              <span class="stat-icon"><i class="ti ti-users"></i></span>
+              <div><div class="stat-label">Population</div><div class="stat-value" id="cPop">—</div></div>
+            </div>
+            <div class="country-stat-item">
+              <span class="stat-icon"><i class="ti ti-coin"></i></span>
+              <div><div class="stat-label">PIB</div><div class="stat-value" id="cGdp">—</div></div>
+            </div>
+            <div class="country-stat-item">
+              <span class="stat-icon"><i class="ti ti-trending-up"></i></span>
+              <div><div class="stat-label">Croissance</div><div class="stat-value" id="cGrowth">—</div></div>
+            </div>
+            <div class="country-stat-item">
+              <span class="stat-icon"><i class="ti ti-wifi"></i></span>
+              <div><div class="stat-label">Internet</div><div class="stat-value" id="cInternet">—</div></div>
+            </div>
+            <div class="country-stat-item">
+              <span class="stat-icon"><i class="ti ti-bolt"></i></span>
+              <div><div class="stat-label">Énergie</div><div class="stat-value" id="cEnergy">—</div></div>
+            </div>
+          </div>
+          <div class="country-insight" id="countryInsight" style="display:none">
+            <i class="ti ti-sparkles"></i>
+            <span id="countryInsightText"></span>
+          </div>
+          <button class="btn-compare-add" id="addToCompare" style="display:none">
+            <i class="ti ti-scale"></i> Ajouter au comparateur
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-charts">
+      <div class="view-header">
+        <div><h1 class="view-title">Visualisations avancées</h1>
+        <p class="view-subtitle">Graphiques interactifs et animés</p></div>
+      </div>
+      <div class="chart-type-tabs">
+        <button class="chart-tab active" data-chart="radar">Radar</button>
+        <button class="chart-tab" data-chart="heatmap">Heatmap</button>
+        <button class="chart-tab" data-chart="area">Tendances</button>
+        <button class="chart-tab" data-chart="population">Population</button>
+      </div>
+      <div class="chart-panel active" id="panel-radar">
+        <div class="chart-card chart-card--full">
+          <div class="chart-card-header">
+            <div><h3 class="chart-title">Profil multi-dimensionnel — Top 6 pays</h3>
+            <p class="chart-subtitle">Normalisation 0–100 sur 6 indicateurs</p></div>
+          </div>
+          <div style="position:relative;height:400px;max-width:600px;margin:0 auto;">
+            <canvas id="radarChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="chart-panel" id="panel-heatmap">
+        <div class="chart-card chart-card--full">
+          <div class="chart-card-header">
+            <div><h3 class="chart-title">Heatmap — Croissance économique</h3>
+            <p class="chart-subtitle">Pays × Années · % de croissance du PIB</p></div>
+          </div>
+          <div id="heatmapContainer" style="overflow-x:auto;"></div>
+        </div>
+      </div>
+      <div class="chart-panel" id="panel-area">
+        <div class="chart-card chart-card--full">
+          <div class="chart-card-header">
+            <div><h3 class="chart-title">Tendances population mondiale</h3>
+            <p class="chart-subtitle">Milliards d'habitants · 1990–2026</p></div>
+          </div>
+          <div style="position:relative;height:380px;">
+            <canvas id="areaChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="chart-panel" id="panel-population">
+        <div class="chart-card chart-card--full">
+          <div class="chart-card-header">
+            <div><h3 class="chart-title">Distribution population — Top 15 pays</h3>
+            <p class="chart-subtitle">Millions d'habitants · 2026</p></div>
+          </div>
+          <div style="position:relative;height:500px;">
+            <canvas id="popChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-compare">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">Comparateur de pays</h1>
+          <p class="view-subtitle">Cliquez sur la carte pour sélectionner jusqu'à 3 pays à comparer</p>
+        </div>
+        <div class="view-actions">
+          <select class="filter-select" id="compareMetric">
+            <option value="gdp">PIB</option>
+            <option value="population">Population</option>
+            <option value="internet">Internet</option>
+            <option value="growth">Croissance</option>
+          </select>
+          <button class="btn-export" id="clearCompare">
+            <i class="ti ti-trash"></i> Effacer
+          </button>
+        </div>
+      </div>
+      <div class="cmp-slots-bar">
+        <div class="cmp-slot empty" id="cmpSlot0">
+          <span class="cmp-slot-num">1</span>
+          <span class="cmp-slot-label">Cliquez sur la carte</span>
+          <button class="cmp-slot-remove" onclick="removeCompareSlot(0)"><i class="ti ti-x"></i></button>
+        </div>
+        <div class="cmp-vs-icon"><i class="ti ti-arrows-left-right"></i></div>
+        <div class="cmp-slot empty" id="cmpSlot1">
+          <span class="cmp-slot-num">2</span>
+          <span class="cmp-slot-label">Cliquez sur la carte</span>
+          <button class="cmp-slot-remove" onclick="removeCompareSlot(1)"><i class="ti ti-x"></i></button>
+        </div>
+        <div class="cmp-vs-icon"><i class="ti ti-arrows-left-right"></i></div>
+        <div class="cmp-slot empty" id="cmpSlot2">
+          <span class="cmp-slot-num">3</span>
+          <span class="cmp-slot-label">Optionnel</span>
+          <button class="cmp-slot-remove" onclick="removeCompareSlot(2)"><i class="ti ti-x"></i></button>
+        </div>
+        <button class="btn-compare-go" id="runCompareMap">
+          <i class="ti ti-chart-bar"></i> Comparer
+        </button>
+      </div>
+      <div class="cmp-layout">
+        <div class="cmp-map-panel">
+          <div class="chart-card" style="padding:16px">
+            <div class="chart-card-header">
+              <div>
+                <h3 class="chart-title">Sélection sur la carte</h3>
+                <p class="chart-subtitle" id="cmpMapSubtitle">Cliquez sur un pays pour l'ajouter</p>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center;font-size:11px;color:#94a3b8;font-family:DM Mono">
+                <span class="cmp-legend-dot" style="background:#3b82f6"></span>Pays 1
+                <span class="cmp-legend-dot" style="background:#22c55e"></span>Pays 2
+                <span class="cmp-legend-dot" style="background:#f59e0b"></span>Pays 3
+              </div>
+            </div>
+            <div id="compareMap" style="width:100%;min-height:340px;background:#dde8f5;border-radius:10px;overflow:hidden"></div>
+            <div class="map-legend" style="margin-top:10px">
+              <span class="map-legend-label">Faible</span>
+              <div class="map-legend-gradient" id="cmpMapLegendGrad"></div>
+              <span class="map-legend-label">Élevé</span>
+            </div>
+          </div>
+        </div>
+        <div class="cmp-results-panel">
+          <div class="cmp-placeholder" id="cmpPlaceholder">
+            <i class="ti ti-map-pin"></i>
+            <p>Sélectionnez au moins 2 pays<br>en cliquant sur la carte</p>
+          </div>
+          <div id="cmpCards" style="display:none"></div>
+          <div id="cmpCharts" style="display:none">
+            <div class="chart-card" style="margin-bottom:14px">
+              <div class="chart-card-header"><h3 class="chart-title">Indicateurs clés comparés</h3></div>
+              <div style="position:relative;height:240px"><canvas id="compareBarChart"></canvas></div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-card-header"><h3 class="chart-title">Profil radar</h3></div>
+              <div style="position:relative;height:240px"><canvas id="compareRadarChart"></canvas></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-explorer">
+      <div class="view-header">
+        <div><h1 class="view-title">Explorateur de données</h1>
+        <p class="view-subtitle">Filtrez, triez et recherchez dans les données</p></div>
+        <div class="view-actions">
+          <button class="btn-export" id="exportCSV"><i class="ti ti-table-export"></i> Export CSV</button>
+        </div>
+      </div>
+      <div class="explorer-filters">
+        <div class="filter-group">
+          <label>Région</label>
+          <select class="filter-select" id="filterRegion">
+            <option value="">Toutes les régions</option>
+            <option value="Europe">Europe</option>
+            <option value="Asie">Asie</option>
+            <option value="Amérique">Amérique</option>
+            <option value="Afrique">Afrique</option>
+            <option value="Océanie">Océanie</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Trier par</label>
+          <select class="filter-select" id="filterSort">
+            <option value="gdp_desc">PIB (déc.)</option>
+            <option value="gdp_asc">PIB (croiss.)</option>
+            <option value="pop_desc">Population (déc.)</option>
+            <option value="growth_desc">Croissance (déc.)</option>
+            <option value="internet_desc">Internet (déc.)</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>PIB minimum (T$)</label>
+          <input type="number" class="filter-input" id="filterMinGdp" placeholder="0" min="0">
+        </div>
+        <button class="btn-filter-apply" id="applyFilters"><i class="ti ti-filter"></i> Appliquer</button>
+        <button class="btn-filter-reset" id="resetFilters"><i class="ti ti-refresh"></i></button>
+      </div>
+      <div class="table-container">
+        <table class="data-table" id="explorerTable">
+          <thead>
+            <tr>
+              <th class="sortable" data-col="name"><i class="ti ti-flag"></i> Pays</th>
+              <th class="sortable" data-col="region"><i class="ti ti-map"></i> Région</th>
+              <th class="sortable" data-col="population"><i class="ti ti-users"></i> Population</th>
+              <th class="sortable" data-col="gdp"><i class="ti ti-coin"></i> PIB (T$)</th>
+              <th class="sortable" data-col="growth"><i class="ti ti-trending-up"></i> Croissance</th>
+              <th class="sortable" data-col="internet"><i class="ti ti-wifi"></i> Internet</th>
+              <th class="sortable" data-col="energy"><i class="ti ti-bolt"></i> Énergie</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="explorerTableBody"></tbody>
+        </table>
+        <div class="table-footer">
+          <span id="tableCount">0 pays affichés</span>
+          <div class="pagination" id="pagination"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-import">
+      <div class="view-header">
+        <div><h1 class="view-title">Import de données</h1>
+        <p class="view-subtitle">Importez CSV ou JSON — analyse automatique</p></div>
+      </div>
+      <div class="import-grid">
+        <div class="upload-zone" id="uploadZone">
+          <div class="upload-icon"><i class="ti ti-cloud-upload"></i></div>
+          <h3>Glissez votre fichier ici</h3>
+          <p>Formats acceptés : CSV, JSON · Max 10 MB</p>
+          <label class="btn-upload-browse">
+            <i class="ti ti-folder-open"></i> Parcourir
+            <input type="file" id="fileInput" accept=".csv,.json" style="display:none">
+          </label>
+        </div>
+        <div class="import-preview" id="importPreview" style="display:none">
+          <div class="import-file-info" id="importFileInfo"></div>
+          <div class="import-columns" id="importColumns"></div>
+          <div class="import-actions">
+            <button class="btn-analyze" id="btnAnalyze">
+              <i class="ti ti-chart-bar"></i> Générer les graphiques
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="importResults" style="display:none">
+        <div class="import-insights" id="importInsights"></div>
+        <div class="charts-row" id="importCharts"></div>
+      </div>
+      <div class="sample-section">
+        <h4><i class="ti ti-database"></i> Données exemple</h4>
+        <div class="sample-cards">
+          <div class="sample-card" onclick="loadSampleData('gdp')">
+            <i class="ti ti-coin"></i><span>PIB historique</span><small>20 pays · 10 ans</small>
+          </div>
+          <div class="sample-card" onclick="loadSampleData('population')">
+            <i class="ti ti-users"></i><span>Démographie</span><small>42 pays · 2026</small>
+          </div>
+          <div class="sample-card" onclick="loadSampleData('energy')">
+            <i class="ti ti-bolt"></i><span>Énergie mondiale</span><small>30 pays · Mix énergétique</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-insights">
+      <div class="view-header">
+        <div><h1 class="view-title">Insights automatiques</h1>
+        <p class="view-subtitle">Analyses et patterns détectés dans les données</p></div>
+        <div class="view-actions">
+          <button class="btn-export" id="refreshInsights"><i class="ti ti-refresh"></i> Actualiser</button>
+        </div>
+      </div>
+      <div class="insights-grid" id="insightsGrid"></div>
+      <div class="correlations-section">
+        <h3 class="section-title"><i class="ti ti-link"></i> Corrélations détectées</h3>
+        <div class="correlations-grid" id="correlationsGrid"></div>
+      </div>
+      <div class="rankings-section">
+        <h3 class="section-title"><i class="ti ti-trophy"></i> Classements & Records</h3>
+        <div class="rankings-row" id="rankingsRow"></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-forecast">
+      <div class="view-header">
+        <div><h1 class="view-title">Prévisions & Forecasting</h1>
+        <p class="view-subtitle">Régression linéaire · Projections 2027-2030 · CAGR</p></div>
+        <div class="view-actions">
+          <select class="filter-select" id="forecastCountry"></select>
+        </div>
+      </div>
+      <div id="forecastContent">
+        <div class="chart-card" style="margin-bottom:16px">
+          <div class="chart-card-header">
+            <div><h3 class="chart-title">Évolution PIB + Projections 2027-2030</h3>
+            <p class="chart-subtitle">Lignes pleines = historique · Pointillés = projection</p></div>
+          </div>
+          <div style="position:relative;height:320px"><canvas id="forecastChart"></canvas></div>
+        </div>
+        <div id="forecastStats" class="fc-stats-grid"></div>
+        <div class="chart-card" style="margin-top:16px">
+          <div class="chart-card-header"><h3 class="chart-title">Classement PIB projeté 2030 — Tous pays</h3></div>
+          <div class="table-container" style="margin-top:0;border-radius:0 0 14px 14px;border:none">
+            <table class="data-table">
+              <thead><tr>
+                <th>#</th><th>Pays</th><th>PIB actuel</th>
+                <th>PIB 2030 (proj.)</th><th>CAGR/an</th><th>Fiabilité</th>
+              </tr></thead>
+              <tbody id="forecastTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-watchlist">
+      <div class="view-header">
+        <div><h1 class="view-title">Watchlist — Suivi personnalisé</h1>
+        <p class="view-subtitle">Surveillez des pays et recevez des alertes de seuil</p></div>
+        <div class="view-actions">
+          <span id="wlAlertCount" style="font-family:DM Mono;font-size:12px;color:var(--text-muted)"></span>
+        </div>
+      </div>
+      <div class="wl-alert-banner" id="wlAlertBanner" style="display:none;align-items:flex-start;gap:10px;padding:12px 16px;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;margin-bottom:18px"></div>
+      <div id="wlGrid" class="wl-grid"></div>
+      <div class="chart-card" style="margin-top:18px">
+        <div class="chart-card-header"><h3 class="chart-title"><i class="ti ti-plus" style="color:var(--blue-600)"></i> Ajouter une alerte</h3></div>
+        <div id="wlAddForm"></div>
+      </div>
+      <div class="chart-card" style="margin-top:16px">
+        <div class="chart-card-header"><h3 class="chart-title"><i class="ti ti-activity" style="color:var(--green-600)"></i> Activité récente</h3></div>
+        <div id="wlFeed"></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-rankings">
+      <div class="view-header">
+        <div><h1 class="view-title">Classements mondiaux</h1>
+        <p class="view-subtitle">Podium, évolution de rang, tendances</p></div>
+        <div class="view-actions">
+          <select class="filter-select" id="rankYearSel">
+            <option value="2026" selected>2026</option>
+            <option value="2025">2025</option>
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+          </select>
+          <button class="btn-export" id="rankSortDir"><i class="ti ti-sort-descending"></i></button>
+        </div>
+      </div>
+      <div class="chart-type-tabs" id="rankMetricTabs" style="margin-bottom:20px"></div>
+      <div id="rankPodium" style="margin-bottom:24px"></div>
+      <div class="table-container" style="margin-bottom:18px">
+        <table class="data-table">
+          <thead><tr>
+            <th>Rang</th><th>Pays</th><th>Région</th>
+            <th>Valeur</th><th>Score relatif</th><th></th>
+          </tr></thead>
+          <tbody id="rankTableBody"></tbody>
+        </table>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <h3 class="chart-title">Évolution Top 6 — 2020-2026</h3>
+          <p class="chart-subtitle">Lignes pointillées = projections</p>
+        </div>
+        <div id="rankEvolution" style="position:relative;height:260px"></div>
+      </div>
+    </section>
+
+  
+    <section class="view" id="view-studio">
+      <div class="view-header">
+        <div><h1 class="view-title">Data Studio</h1>
+        <p class="view-subtitle">Créez vos propres visualisations personnalisées</p></div>
+        <div class="view-actions">
+          <button class="btn-filter-apply" id="studioBuildBtn"><i class="ti ti-refresh"></i> Générer</button>
+          <button class="btn-export" id="studioSaveBtn"><i class="ti ti-bookmark"></i> Sauvegarder</button>
+        </div>
+      </div>
+      <div class="studio-layout">
+        <div class="studio-sidebar">
+          <div class="chart-card" style="padding:16px;margin-bottom:14px">
+            <div class="chart-card-header" style="margin-bottom:12px">
+              <h3 class="chart-title"><i class="ti ti-chart-bar" style="color:var(--blue-600)"></i> Type de graphique</h3>
+            </div>
+            <div id="studioTypeRow" class="studio-type-grid"></div>
+          </div>
+          <div class="chart-card" style="padding:16px;margin-bottom:14px">
+            <div class="chart-card-header" style="margin-bottom:12px">
+              <h3 class="chart-title"><i class="ti ti-adjustments" style="color:var(--purple-600)"></i> Paramètres</h3>
+            </div>
+            <div id="studioControls" style="display:flex;flex-direction:column;gap:10px"></div>
+          </div>
+          <div class="chart-card" style="padding:16px">
+            <div class="chart-card-header" style="margin-bottom:10px">
+              <h3 class="chart-title"><i class="ti ti-bookmark" style="color:var(--amber-600)"></i> Sauvegardés</h3>
+            </div>
+            <div id="studioSavedList"></div>
+          </div>
+        </div>
+        <div class="studio-main">
+          <div class="chart-card" style="height:420px">
+            <div class="chart-card-header">
+              <h3 class="chart-title">Aperçu du graphique</h3>
+              <div id="studioStats" class="studio-stats-row"></div>
+            </div>
+            <div style="position:relative;height:320px"><canvas id="studioCanvas"></canvas></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-report">
+      <div class="view-header">
+        <div><h1 class="view-title">Générateur de rapports</h1>
+        <p class="view-subtitle">Glissez des blocs pour construire votre rapport personnalisé</p></div>
+        <div class="view-actions">
+          <button class="btn-filter-apply" id="rbBtnTemplate"><i class="ti ti-template"></i> Modèle</button>
+          <button class="btn-export" id="rbBtnClear"><i class="ti ti-trash"></i> Effacer</button>
+          <button class="btn-filter-apply" id="rbBtnExport" style="background:var(--green-600)"><i class="ti ti-download"></i> Exporter HTML</button>
+        </div>
+      </div>
+      <div class="rb-layout">
+        <div class="rb-palette-col">
+          <div class="chart-card" style="padding:16px">
+            <div class="chart-card-header" style="margin-bottom:12px">
+              <h3 class="chart-title"><i class="ti ti-layout-grid" style="color:var(--blue-600)"></i> Blocs disponibles</h3>
+            </div>
+            <div id="rbPalette" style="display:flex;flex-direction:column;gap:8px"></div>
+          </div>
+        </div>
+        <div class="rb-canvas-col">
+          <div class="chart-card" style="padding:16px;min-height:600px">
+            <div class="chart-card-header" style="margin-bottom:12px">
+              <h3 class="chart-title"><i class="ti ti-file-text" style="color:var(--purple-600)"></i> Rapport en cours</h3>
+              <span style="font-size:11px;color:var(--text-muted);font-family:DM Mono">Glissez les blocs pour réorganiser</span>
+            </div>
+            <div id="rbCanvas"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<div class="tooltip-custom" id="tooltip"></div>
+
+<div class="dp-overlay" id="notifOverlay" onclick="closePanels()"></div>
+<div class="dp-panel" id="notifPanel">
+  <div class="dp-panel-header">
+    <div class="dp-panel-title"><i class="ti ti-bell"></i> Notifications</div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="dp-panel-action" id="markAllRead">Tout lire</button>
+      <button class="dp-panel-close" onclick="closePanels()"><i class="ti ti-x"></i></button>
+    </div>
+  </div>
+  <div class="dp-notif-tabs">
+    <button class="dp-notif-tab active" data-filter="all">Toutes</button>
+    <button class="dp-notif-tab" data-filter="alert">Alertes</button>
+    <button class="dp-notif-tab" data-filter="info">Infos</button>
+    <button class="dp-notif-tab" data-filter="update">Mises à jour</button>
+  </div>
+  <div class="dp-panel-body" id="notifList"></div>
+</div>
+
+<div class="dp-panel dp-panel--right" id="settingsPanel">
+  <div class="dp-panel-header">
+    <div class="dp-panel-title"><i class="ti ti-settings"></i> Paramètres</div>
+    <button class="dp-panel-close" onclick="closePanels()"><i class="ti ti-x"></i></button>
+  </div>
+  <div class="dp-panel-body">
+
+    <div class="dp-settings-section">
+      <div class="dp-settings-label">Apparence</div>
+      <div class="dp-settings-row">
+        <span><i class="ti ti-palette"></i> Thème</span>
+        <div class="dp-toggle-group" id="themeToggle">
+          <button class="dp-toggle active" data-val="light"><i class="ti ti-sun"></i> Clair</button>
+          <button class="dp-toggle" data-val="dark"><i class="ti ti-moon"></i> Sombre</button>
+        </div>
+      </div>
+      <div class="dp-settings-row">
+        <span><i class="ti ti-language"></i> Langue</span>
+        <select class="dp-settings-select" id="langSelect">
+          <option value="fr">Français</option>
+          <option value="en">English</option>
+          <option value="ar">العربية</option>
+        </select>
+      </div>
+      <div class="dp-settings-row">
+        <span><i class="ti ti-layout-sidebar"></i> Sidebar</span>
+        <label class="dp-switch">
+          <input type="checkbox" id="sidebarToggleSetting" checked>
+          <span class="dp-switch-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="dp-settings-section">
+      <div class="dp-settings-label">Données</div>
+      <div class="dp-settings-row">
+        <span><i class="ti ti-calendar"></i> Année par défaut</span>
+        <select class="dp-settings-select" id="defaultYearSetting">
+          <option value="2026" selected>2026</option>
+          <option value="2025">2025</option>
+          <option value="2024">2024</option>
+        </select>
+      </div>
+      <div class="dp-settings-row">
+        <span><i class="ti ti-refresh"></i> Actualisation auto</span>
+        <label class="dp-switch">
+          <input type="checkbox" id="autoRefresh">
+          <span class="dp-switch-slider"></span>
+        </label>
+      </div>
+      <div class="dp-settings-row">
+        <span><i class="ti ti-chart-bar"></i> Animations graphiques</span>
+        <label class="dp-switch">
+          <input type="checkbox" id="chartAnim" checked>
+          <span class="dp-switch-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="dp-settings-section">
+      <div class="dp-settings-label">Compte connecté</div>
+      <div class="dp-settings-row">
+        <span><i class="ti ti-user"></i> Nom</span>
+        <span id="settingsUserName" style="font-family:DM Mono;font-size:12px;color:#94a3b8">—</span>
+      </div>
+      <div class="dp-settings-row">
+        <span><i class="ti ti-mail"></i> Email</span>
+        <span id="settingsUserEmail" style="font-family:DM Mono;font-size:12px;color:#94a3b8">—</span>
+      </div>
+      <div class="dp-settings-row">
+        <span><i class="ti ti-shield"></i> Rôle</span>
+        <span id="settingsUserRole" style="font-family:DM Mono;font-size:12px;color:#94a3b8">—</span>
+      </div>
+      <button class="dp-btn-danger" id="btnLogout">
+        <i class="ti ti-logout"></i> Se déconnecter
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="dp-modal-backdrop" id="exportBackdrop" onclick="closeExport()"></div>
+<div class="dp-modal" id="exportModal">
+  <div class="dp-modal-header">
+    <div class="dp-modal-title"><i class="ti ti-download"></i> Exporter les données</div>
+    <button class="dp-panel-close" onclick="closeExport()"><i class="ti ti-x"></i></button>
+  </div>
+  <div class="dp-modal-body">
+    <p class="dp-modal-desc">Choisissez le format et la portée des données à exporter.</p>
+    <div class="dp-export-grid">
+      <div class="dp-export-card active" data-fmt="csv" onclick="selectExportFmt(this,'csv')">
+        <i class="ti ti-file-type-csv"></i><span>CSV</span><small>Excel / Sheets</small>
+      </div>
+      <div class="dp-export-card" data-fmt="json" onclick="selectExportFmt(this,'json')">
+        <i class="ti ti-file-code"></i><span>JSON</span><small>API / Dev</small>
+      </div>
+      <div class="dp-export-card" data-fmt="pdf" onclick="selectExportFmt(this,'pdf')">
+        <i class="ti ti-file-type-pdf"></i><span>Rapport PDF</span><small>Impression</small>
+      </div>
+    </div>
+    <div class="dp-export-options">
+      <div class="dp-settings-label">Données à inclure</div>
+      <label class="dp-checkbox-row"><input type="checkbox" id="expCountries" checked> Tous les pays (42)</label>
+      <label class="dp-checkbox-row"><input type="checkbox" id="expStats" checked> Statistiques historiques</label>
+      <label class="dp-checkbox-row"><input type="checkbox" id="expProjections" checked> Projections 2025-2026</label>
+      <label class="dp-checkbox-row"><input type="checkbox" id="expInsights"> Insights & Corrélations</label>
+    </div>
+    <div class="dp-export-scope">
+      <div class="dp-settings-label">Année</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="dp-scope-btn active" data-yr="current" onclick="selectScope(this,'current')">Année en cours (<span id="expYearLabel">2026</span>)</button>
+        <button class="dp-scope-btn" data-yr="all" onclick="selectScope(this,'all')">Toutes les années</button>
+        <button class="dp-scope-btn" data-yr="projections" onclick="selectScope(this,'projections')">2025-2026 seulement</button>
+      </div>
+    </div>
+  </div>
+  <div class="dp-modal-footer">
+    <button class="dp-btn-cancel" onclick="closeExport()">Annuler</button>
+    <button class="dp-btn-confirm" id="doExport"><i class="ti ti-download"></i> Télécharger</button>
+  </div>
+</div>
+
+->
+<div class="dp-modal-backdrop" id="profileBackdrop" onclick="closeProfile()"></div>
+<div class="dp-modal dp-modal--sm" id="profileModal">
+  <div class="dp-modal-header">
+    <div class="dp-modal-title"><i class="ti ti-user-circle"></i> Mon profil</div>
+    <button class="dp-panel-close" onclick="closeProfile()"><i class="ti ti-x"></i></button>
+  </div>
+  <div class="dp-modal-body">
+    <div style="text-align:center;margin-bottom:20px">
+      <!-- ★ Avatar dynamique -->
+      <div class="dp-profile-avatar" id="profileModalAvatar">—</div>
+      <!-- ★ Nom dynamique -->
+      <div style="font-size:17px;font-weight:700;font-family:Syne,sans-serif;margin-top:10px"
+           id="profileModalName">—</div>
+      <!-- ★ Email dynamique -->
+      <div style="font-size:12px;color:#94a3b8;font-family:DM Mono"
+           id="profileModalEmail">—</div>
+      <!-- ★ Badge rôle dynamique -->
+      <div class="dp-profile-badge" id="profileModalBadge">
+        <i class="ti ti-shield-check"></i> —
+      </div>
+    </div>
+    <div class="dp-settings-section" style="margin-bottom:0">
+      <div class="dp-settings-row">
+        <span><i class="ti ti-calendar"></i> Membre depuis</span>
+        <!-- ★ Date dynamique -->
+        <span id="profileModalDate" style="font-family:DM Mono;font-size:12px;color:#64748b">—</span>
+      </div>
+      <div class="dp-settings-row">
+        <span><i class="ti ti-clock"></i> Dernière connexion</span>
+        <span id="profileModalLogin" style="font-family:DM Mono;font-size:12px;color:#64748b">—</span>
+      </div>
+      <div class="dp-settings-row">
+        <span><i class="ti ti-database"></i> Datasets importés</span>
+        <span style="font-family:DM Mono;font-size:12px;color:#64748b">7</span>
+      </div>
+      <div class="dp-settings-row">
+        <span><i class="ti ti-chart-bar"></i> Exports réalisés</span>
+        <span style="font-family:DM Mono;font-size:12px;color:#64748b">23</span>
+      </div>
+    </div>
+  </div>
+  <div class="dp-modal-footer">
+    <button class="dp-btn-cancel" onclick="closeProfile()">Fermer</button>
+    <button class="dp-btn-confirm"
+            onclick="closeProfile();window.location.href='profile.html'">
+      <i class="ti ti-edit"></i> Modifier le profil
+    </button>
+  </div>
+</div>
+
+<!-- SCRIPTS — auth.js EN PREMIER pour que guard s'exécute -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script src="auth.js"></script>
+<script src="data.js"></script>
+<script src="modules/forecast.js"></script>
+<script src="modules/watchlist.js"></script>
+<script src="modules/rankings.js"></script>
+<script src="modules/data-studio.js"></script>
+<script src="modules/report-builder.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
