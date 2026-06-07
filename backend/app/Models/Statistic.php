@@ -15,11 +15,11 @@ class Statistic extends Model
         'growth_rate',
         'internet_usage',
         'energy_consumption',
-        'is_projection',       // ← nouveau
-        'source',              // ← nouveau
-        'gdp_per_capita',      // ← nouveau
-        'energy_fossil_pct',   // ← nouveau
-        'energy_renewable_pct',// ← nouveau
+        'is_projection',       
+        'source',              
+        'gdp_per_capita',      
+        'energy_fossil_pct',   
+        'energy_renewable_pct',
     ];
 
     protected $casts = [
