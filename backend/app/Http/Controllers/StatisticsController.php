@@ -36,7 +36,7 @@ class StatisticsController extends Controller
             $isProjection = false;
         }
 
-        // Top 5 PIB pour l'année demandée
+        // Top 5 PIB pour l'année demandee
         $top5Gdp = Statistic::where('year', $year)
             ->with('country:id,name,flag')
             ->orderByDesc('gdp')
@@ -77,10 +77,6 @@ class StatisticsController extends Controller
         ]);
     }
 
-    /**
-     * GET /api/v1/stats/history?country_id=1&from=2019&to=2026
-     * Historique complet d'un pays avec flag is_projection
-     */
     public function history(Request $request): JsonResponse
     {
         $request->validate([
