@@ -61,10 +61,10 @@ DATA PULSE est une plateforme analytique complète permettant d'explorer, compar
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        FRONTEND                                  │
+│                        FRONTEND                                 │
 │   HTML5 · CSS3 · JavaScript Vanilla                             │
-│   Chart.js 4.4 · D3.js 7.8 · TopoJSON 3.0                      │
-│                                                                  │
+│   Chart.js 4.4 · D3.js 7.8 · TopoJSON 3.0                       │
+│                                                                 │
 │   auth.js → UserStore (localStorage) → Session Manager          │
 │   app.js  → 12 Dashboards · Graphiques · Cartes                 │
 │   i18n.js → Traductions FR / EN / AR (RTL)                      │
@@ -74,21 +74,21 @@ DATA PULSE est une plateforme analytique complète permettant d'explorer, compar
                      │ Authorization: Bearer {token}
                      ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                         BACKEND                                  │
+│                         BACKEND                                 │
 │   Laravel 11 · PHP 8.2 · Laravel Sanctum                        │
-│                                                                  │
-│   ┌─────────────┐  ┌──────────────┐  ┌────────────────────┐    │
-│   │   Auth      │  │  Countries   │  │   Statistics       │    │
-│   │ Controller  │  │  Controller  │  │   Controller       │    │
-│   └─────────────┘  └──────────────┘  └────────────────────┘    │
-│   ┌─────────────┐  ┌──────────────┐  ┌────────────────────┐    │
-│   │  Dashboard  │  │  Comparison  │  │    Dataset         │    │
-│   │ Controller  │  │  Controller  │  │    Controller      │    │
-│   └─────────────┘  └──────────────┘  └────────────────────┘    │
-│   ┌─────────────┐  ┌──────────────┐                            │
-│   │   Search    │  │    User      │                            │
-│   │ Controller  │  │  Controller  │                            │
-│   └─────────────┘  └──────────────┘                            │
+│                                                                 |
+│   ┌─────────────┐  ┌──────────────┐  ┌────────────────────┐     |
+│   │   Auth      │  │  Countries   │  │   Statistics       │     │
+│   │ Controller  │  │  Controller  │  │   Controller       │     │
+│   └─────────────┘  └──────────────┘  └────────────────────┘     │
+│   ┌─────────────┐  ┌──────────────┐  ┌────────────────────┐     │
+│   │  Dashboard  │  │  Comparison  │  │    Dataset         │     │
+│   │ Controller  │  │  Controller  │  │    Controller      │     │
+│   └─────────────┘  └──────────────┘  └────────────────────┘     │
+│   ┌─────────────┐  ┌──────────────┐                             │
+│   │   Search    │  │    User      │                             │
+│   │ Controller  │  │  Controller  │                             │
+│   └─────────────┘  └──────────────┘                             │
 └────────────────────┬────────────────────────────────────────────┘
                      │ Eloquent ORM
                      ▼
@@ -599,13 +599,6 @@ chore:    maintenance, dépendances
 
 ---
 
-## 📄 Licence
-
-Ce projet est sous licence **MIT**. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
-
----
-
-<div align="center">
 
 **DATA PULSE** — Développé avec ❤️ · Laravel 11 · PHP 8.2
 
