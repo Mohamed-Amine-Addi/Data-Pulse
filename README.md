@@ -93,9 +93,9 @@ DATA PULSE est une plateforme analytique complète permettant d'explorer, compar
                      │ Eloquent ORM
                      ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                      BASE DE DONNÉES                             │
-│                         SQLite                                   │
-│                                                                  │
+│                      BASE DE DONNÉES                            │
+│                         SQLite                                  │
+│                                                                 │
 │   users · countries · statistics · datasets                     │
 │   personal_access_tokens · cache · jobs                         │
 └─────────────────────────────────────────────────────────────────┘
