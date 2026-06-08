@@ -110,7 +110,7 @@ DATA PULSE est une plateforme analytique complète permettant d'explorer, compar
 | # | Dashboard | Description |
 |---|-----------|-------------|
 | 1 | 📊 **Vue d'ensemble** | KPIs mondiaux + 5 graphiques Chart.js, filtre par année 2020–2026 |
-| 2 | 🗺️ **Carte mondiale** | D3.js + TopoJSON, 42 pays, Maroc complet (fusion Sahara Occidental) |
+| 2 | 🗺️ **Carte mondiale** | D3.js + TopoJSON, 42 pays |
 | 3 | 📈 **Visualisations** | Radar, Heatmap, Tendances population, Distribution |
 | 4 | ⚖️ **Comparateur** | Sélection sur carte, 2–3 pays, graphiques bar + radar |
 | 5 | 🔍 **Explorateur** | Tableau filtrable, pagination, export CSV |
